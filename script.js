@@ -42,24 +42,57 @@ function addLibraryBook() {
 
 submitButton.addEventListener('click', addLibraryBook);
 
+function delDiv(event) {
+    const button = event.target;
+    const divToDel = button.parentElement;
+    myLibrary.splice(divToDel.getAttribute('data-id'),1);
+    displayLibrary();
+}
+
+function isreadToggle(event) {
+    target = event.target.parentElement;
+
+    if(myLibrary[target.getAttribute('data-id')].is_read === true) {
+        myLibrary[target.getAttribute('data-id')].is_read = false;
+    } else {
+        myLibrary[target.getAttribute('data-id')].is_read = true;
+    }
+    displayLibrary();
+}
+
+let divCount = 0;
 function displayLibrary() {
     libraryElement.innerHTML ="";
+    
     for(let i=0;i<myLibrary.length;i++) {
-        newLibItem = document.createElement('div');
-        newLibItem.innerHTML = `${myLibrary[i].title} + ${myLibrary[i].author}`;
+        newDiv = document.createElement('div');
+        newDiv.setAttribute('data-id',i);
+        newDiv.setAttribute('class','library-element');
         
-        newItemDel = document.createElement('button');
-        newItemDel.setAttribute('data-id',i);
-        newItemDel.textContent = "Delete";
+        newDivContent = document.createElement('div');
+        newDivContent.innerHTML = `Title : ${myLibrary[i].title}, Author : ${myLibrary[i].author}, Pages : ${myLibrary[i].pages}, Is read : ${myLibrary[i].is_read}`;
+        newDiv.appendChild(newDivContent);
 
-        newItemDel.addEventListener('click', ()=> {
-            console.log(this.getAttribute('data-id'));
-        });
+        newDivButtonCluster = document.createElement('div');
+        newDivButtonCluster.setAttribute('class','btn-cluster');
+        newDiv.appendChild(newDivButtonCluster);
 
-        newLibItem.appendChild(newItemDel);
+        newDivDel = document.createElement('button');
+        newDivDel.textContent = "Delete";
+        newDivDel.setAttribute('class','delete-btn');
+        newDivButtonCluster.appendChild(newDivDel);
+        newDivDel.addEventListener('click',delDiv);
 
-        libraryElement.appendChild(newLibItem);
+        newDivRead = document.createElement('button');
+        newDivRead.textContent = "Read";
+        newDivRead.setAttribute('class','submit-button');
+        newDivButtonCluster.appendChild(newDivRead);
+        newDivRead.addEventListener('click',isreadToggle);
+
+        libraryElement.appendChild(newDiv);
     }
+
+    
 }
 
 

@@ -9,16 +9,19 @@ const libraryElement = document.querySelector('.library');
 
 const myLibrary = [];
 
-function book(title, author, pages, is_read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.is_read = is_read;
+class book {
+    constructor(title,author,pages,is_read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.is_read = is_read;
+    }
 
-    this.info = function() {
+    info() {
         return ("Pages : " + pages + ", Is Read : " + is_read + ", Title : " + title + ", Author : " + author);
     }
-};
+}
+
 
 function add_book(title, author, pages, is_read) {
     const new_book = new book(title,author,pages,is_read);
